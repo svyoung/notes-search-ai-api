@@ -1,5 +1,6 @@
 import openai
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
 import os
 import ollama
@@ -11,6 +12,14 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True, verbose=True)
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+)
 
 conn = psycopg2.connect(
     dbname=os.getenv("DB_NAME"),
