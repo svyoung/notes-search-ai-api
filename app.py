@@ -34,9 +34,6 @@ class Message(BaseModel):
     role: str
     message: str
 
-class ChatRequest(BaseModel):
-    messages: list[Message]
-
 def get_embeddings(text: str):
         response = ollama.embed(model="nomic-embed-text", input=text)
         return response["embeddings"]
@@ -97,10 +94,3 @@ async def all_notes():
         return {"notes": notes}
     except Exception as e:
         raise HTTPException(f"There was an error getting all notes: {e}")
-
-# @app.post("/chat_api")
-# async def chat_api(message: Message):
-#     prompt = {
-#         "role": message.role,
-#         "message": message.message,
-#     }
