@@ -13,10 +13,10 @@ load_dotenv(override=True, verbose=True)
 app = FastAPI()
 
 conn = psycopg2.connect(
-    dbname="svy_db",
-    user="syoung",
-    password="Sy1098194!",
-    host="localhost",
+    dbname=os.getenv("DB_NAME"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    host=os.getenv("DB_HOST"),
     port="5432"
 )
 register_vector(conn)
