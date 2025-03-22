@@ -52,7 +52,8 @@ async def add_note(note: Note):
             conn.commit()
         return {"status": "success"}
     except Exception as e:
-        raise HTTPException(f"There was an error adding notes: {e}")
+        print(f"Error adding note: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
 
 @app.get("/search_notes")
 async def search_notes(query: str):
