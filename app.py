@@ -34,9 +34,19 @@ class Message(BaseModel):
     role: str
     message: str
 
+# Using OpenAI Embeddings
 def get_embeddings(text: str):
-        response = ollama.embed(model="nomic-embed-text", input=text)
-        return response["embeddings"]
+    text = text.replace("\n", " ")
+    response = openai_client.embeddings.create(
+        input=text,
+        model="text-embedding-3-large",
+        dimensions=768
+    )
+    return response.data[0].embedding
+
+# def get_embeddings(text: str):
+#         response = ollama.embed(model="nomic-embed-text", input=text)
+#         return response["embeddings"]
 
 @app.get("/")
 def read_root():
@@ -46,9 +56,10 @@ def read_root():
 async def add_note(note: Note):
     try:
         embedding = get_embeddings(note.text)
+        # return embedding
         with conn.cursor() as cursor:
             cursor.execute("INSERT INTO notes (title, text, embedding) VALUES (%s, %s, %s)",
-                           (note.title, note.text, np.array(embedding[0])))
+                           (note.title, note.text, np.array(embedding)))
             conn.commit()
         return {"status": "success"}
     except Exception as e:
@@ -60,7 +71,7 @@ async def search_notes(query: str):
     try:
         embedding = get_embeddings(query)
         with conn.cursor() as cursor:
-            cursor.execute("SELECT title, text FROM notes ORDER BY embedding <=> %s LIMIT 5", (np.array(embedding[0]),))
+            cursor.execute("SELECT title, text FROM notes ORDER BY embedding <=> %s LIMIT 5", (np.array(embedding),))
             results = cursor.fetchall()
         return {
             "total": len(results),
