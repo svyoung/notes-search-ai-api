@@ -40,7 +40,7 @@ def get_embeddings(text: str):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "World!!!!"}
 
 @app.post("/add_note")
 async def add_note(note: Note):
