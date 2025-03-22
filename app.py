@@ -65,6 +65,7 @@ async def search_notes(query: str):
             cursor.execute("SELECT title, text FROM notes ORDER BY embedding <=> %s LIMIT 5", (np.array(embedding[0]),))
             results = cursor.fetchall()
         return {
+            "total": len(results),
             "results": [
                 {"title": row[0], "text": row[1]} for row in results
             ]
