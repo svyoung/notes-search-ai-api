@@ -100,7 +100,7 @@ async def all_notes():
 
         notes = []
         for row in results:
-            title, text = row
+            id, title, text = row
 
             # if isinstance(embedding, np.ndarray):
             #     print("this is a ndarray")
@@ -110,7 +110,7 @@ async def all_notes():
             #     print("this is a float32")
             #     embedding = float(embedding)
 
-            notes.append({"title": title, "text": text})
+            notes.append({"id": id, "title": title, "text": text})
 
         return {"notes": notes}
     except Exception as e:
