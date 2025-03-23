@@ -65,7 +65,6 @@ def read_root():
 async def add_note(note: Note):
     try:
         embedding = get_embeddings(note.text)
-        # return embedding
         with conn.cursor() as cursor:
             cursor.execute("INSERT INTO notes (title, text, embedding) VALUES (%s, %s, %s)",
                            (note.title, note.text, np.array(embedding)))
