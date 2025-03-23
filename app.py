@@ -95,7 +95,7 @@ async def search_notes(query: str):
 async def all_notes():
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT title, text FROM notes")
+            cursor.execute("SELECT id, title, text FROM notes")
             results = cursor.fetchall()
 
         notes = []
