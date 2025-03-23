@@ -2,8 +2,8 @@ import openai
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
+import uvicorn
 import os
-import ollama
 import psycopg2
 import numpy as np
 from pydantic import BaseModel
